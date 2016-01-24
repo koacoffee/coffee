@@ -11,13 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AaronFilson/coffee.git"
+    "url": "git+https://github.com/koacoffee/coffee.git"
   },
   "keywords": [
     "basic",
     "koa",
     "mongo",
-    "koa-mongoose",
     "server",
     "coffee",
     "rest",
@@ -26,9 +25,9 @@
   "author": "Aaron Filson, Erika Hokanson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AaronFilson/coffee/issues"
+    "url": "https://github.com/koacoffee/coffee/issues"
   },
-  "homepage": "https://github.com/AaronFilson/coffee#readme",
+  "homepage": "https://github.com/koacoffee/coffee#readme",
   "dependencies": {
     "glob": "^6.0.4",
     "koa": "^1.1.2",
