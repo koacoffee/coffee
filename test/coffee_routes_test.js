@@ -5,7 +5,7 @@ const expect = chai.expect;
 const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/coffee_app_test';
 const server = require(__dirname + '/../index');
-const Coffee = require(__dirname + '/../models/coffee');
+const Coffee = require(__dirname + '/../models/coffee_model');
 
 describe('coffee api', () => {
   after((done) => {
