@@ -21,7 +21,7 @@ Compare/Contrast with other apps built with vanilla Node and Express:
 
 Here's how you would get up and running with a server on port 3000 with GET and POST routes.
 
-```js
+<!-- ```js
 const server = require('koacoffee');
 const router = new server.Router;
 
@@ -161,7 +161,7 @@ the code in the Getting Started Guide.
   'DELETE': {},
   '404': (req, res) => req.send('404 Not Found')
 }
-```
+``` -->
 
 
 
