@@ -7,9 +7,6 @@ process.env.MONGOLAB_URI = 'mongodb://localhost/coffee_app_test';
 const server = require(__dirname + '/../index');
 const coffeeModel = require(__dirname + '/../models/coffee_model');
 
-// Start server
-require(__dirname + '/../index');
-
 describe('Coffee API', () => {
   it('should make a valid GET request of coffees', (done) => {
     chai.request('localhost:3000')
@@ -21,9 +18,9 @@ describe('Coffee API', () => {
       });
   });
 
-  it('should make a valis POST request of coffees', (done) => {
+  it('should make a valid POST request of coffees', (done) => {
     chai.request('localhost:3000')
-      .post('/api')
+      .post('/data')
       .send({name: 'test coffee'})
       .end((err, res) => {
         expect(err).to.eql(null);
@@ -35,8 +32,8 @@ describe('Coffee API', () => {
   });
 
   describe('requests that require a coffee already in db', () => {
-    beforeEach(done) => {
-      Coffee.create({name: 'test coffee'}, (err, data) => {
+    beforeEach(done => {
+      coffeeModel.create({name: 'test coffee'}, (err, data) => {
         if (err) return console.log(err);
         this.testCoffee = data;
         done();

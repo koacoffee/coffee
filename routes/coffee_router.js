@@ -9,12 +9,12 @@ module.exports = exports = coffeeRouter
   .get('/', function* () {
     try {
       const data = yield coffeeModel.find({}).exec();
-        this.response.status = 200;
-        this.response.body = data;
-      } catch (e) {
-        errorHandler(e).bind(this);
-      }
-    })
+      this.response.status = 200;
+      this.response.body = data;
+    } catch (e) {
+      handleDBError(e).bind(this);
+    }
+  })
     .post('/', bodyParser(), function* () {
       const newCoffee = yield coffeeModel.create(this.request.body);
       try {
@@ -22,7 +22,7 @@ module.exports = exports = coffeeRouter
         this.response.status = 200;
         this.response.body = data;
       } catch (e) {
-        errorHandler(e).bind(this);
+        handleDBError(e).bind(this);
       }
     })
     .put('/:id', bodyParser(), function* () {
@@ -33,7 +33,7 @@ module.exports = exports = coffeeRouter
         this.response.status = 200;
         this.response.body = { msg: 'Success' };
       } catch (e) {
-        errorHandler(e).bind(this);
+        handleDBError(e).bind(this);
       }
     })
     .delete('/:id', function* () {
@@ -42,6 +42,6 @@ module.exports = exports = coffeeRouter
         this.response.status = 200;
         this.response.body = { msg: 'Success' };
       } catch (e) {
-        errorHandler(e).bind(this);
+        handleDBError(e).bind(this);
       }
     });

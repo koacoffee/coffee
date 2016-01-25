@@ -3,8 +3,11 @@ The second framework assignment for Code Fellows Seattle JavaScript 401.
 This is a single-resource REST app using the server-side HTTP framework Koa in combination with MongoDB.
 
 Compare/Contrast with other apps built with vanilla Node and Express:
-<!-- Enter analysis here -->
-- Mention use of generators/iterators, yield, and next().
+
+- Koa's middleware uses generators/iterators, and yield next().
+- Koa does not have a built-in router, while Express does.
+- Vanilla Node relies on conditional states.
+- Koa uses ```this.request``` and ```this.response``` while Express uses ```(req,res)```
 
 ## Contents
 +   [API](https://github.com/koacoffee/coffee#api)

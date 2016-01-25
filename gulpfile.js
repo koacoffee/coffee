@@ -10,7 +10,7 @@ gulp.task('mocha', function() {
 });
 
 gulp.task('watch-mocha', function() {
-  gulp.watch(['lib/**', 'test/**'], ['mocha']);
+  gulp.watch(['lib/**', 'test/**', 'models/**'], ['mocha']);
 });
 
 gulp.task('lint', function() {
@@ -20,7 +20,8 @@ gulp.task('lint', function() {
         'indent': [2, 2],
         'quotes': [2, 'single'],
         'semi': [2, 'always'],
-        'no-console': 0
+        'no-console': 0,
+        'no-unused-vars': 1 // Changes to warning instead of error
       },
       'env': {
         'es6': true,
