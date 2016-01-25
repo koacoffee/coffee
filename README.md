@@ -1,6 +1,9 @@
 # KoaCoffee
 The second framework assignment for Code Fellows Seattle JavaScript 401.
-This is a single resource REST app using the server-side framework Koa.
+This is a single resource REST app using the server-side framework Koa in combination with MongoDB.
+
+Compare/Contrast with other apps built with vanilla Node and Express:
+<!-- Enter analysis here -->
 
 
 ## Contents
