@@ -4,7 +4,7 @@ This is a single-resource REST app using the server-side HTTP framework Koa in c
 
 Compare/Contrast with other apps built with vanilla Node and Express:
 <!-- Enter analysis here -->
-
+- Mention use of generators/iterators, yield, and next().
 
 ## Contents
 +   [API](https://github.com/koacoffee/coffee#api)
@@ -32,6 +32,7 @@ location: String
 "dependencies": {
   "glob": "^6.0.4",
   "koa": "^1.1.2",
+  "koa-bodyparser": "^2.0.1",
   "koa-mongo": "^0.5.0",
   "koa-mongoose": "^1.0.9",
   "koa-router": "^5.3.0",

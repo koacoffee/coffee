@@ -5,41 +5,39 @@ const expect = chai.expect;
 const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/coffee_app_test';
 const server = require(__dirname + '/../index');
-const Coffee = require(__dirname + '/../models/coffee_model');
+const coffeeModel = require(__dirname + '/../models/coffee_model');
 
-describe('coffee api', () => {
-  after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
-      done();
-    });
-  });
+// Start server
+require(__dirname + '/../index');
 
-  it('should be able to retrieve all coffees', (done) => {
+describe('Coffee API', () => {
+  it('should make a valid GET request of coffees', (done) => {
     chai.request('localhost:3000')
-      .get('/')
+      .get('/data')
       .end((err, res) => {
         expect(err).to.eql(null);
-        expect(Array.isArray(res.body)).to.eql(true);
+        expect(res).to.have.status(200);
         done();
       });
   });
 
-  it('should create coffee info with a POST', (done) => {
+  it('should make a valis POST request of coffees', (done) => {
     chai.request('localhost:3000')
-      .post('/')
+      .post('/api')
       .send({name: 'test coffee'})
-      .end(function(err, res) {
+      .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
         expect(res.body.name).to.eql('test coffee');
-        expect(res.body).to.have.property('_id');
+        // expect(res.body).to.have.property('_id');
         done();
       });
   });
 
-  describe('rest requests for coffee info already in db', () => {
-    beforeEach((done) => {
+  describe('requests that require a coffee already in db', () => {
+    beforeEach(done) => {
       Coffee.create({name: 'test coffee'}, (err, data) => {
+        if (err) return console.log(err);
         this.testCoffee = data;
         done();
       });
@@ -47,8 +45,8 @@ describe('coffee api', () => {
 
     it('should be able to update coffee info', (done) => {
       chai.request('localhost:3000')
-        .put('/' + this.testCoffee._id)
-        .send({name: 'new coffee name'})
+        .put('/data' + this.testCoffee._id)
+        .send(this.testCoffee)
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
@@ -59,13 +57,19 @@ describe('coffee api', () => {
 
     it('should be able to delete coffee info', (done) => {
       chai.request('localhost:3000')
-        .delete('/' + this.testCoffee._id)
+        .delete('/data' + this.testCoffee._id)
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
           expect(res.body.msg).to.eql('success');
           done();
         });
+    });
+  });
+
+  after(done => {
+    mongoose.connection.db.dropDatabase(() => {
+      done();
     });
   });
 });
