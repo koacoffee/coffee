@@ -2,15 +2,18 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const expect = chai.expect;
+const request = chai.request;
 const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/coffee_app_test';
 const server = require(__dirname + '/../index');
 const coffeeModel = require(__dirname + '/../models/coffee_model');
 
+var serverUrl = 'http://localhost:3000';
+
 describe('Coffee API', () => {
   it('should make a valid GET request of coffees', (done) => {
-    chai.request('localhost:3000')
-      .get('/data')
+    request(serverUrl)
+      .get('/')
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
@@ -19,8 +22,8 @@ describe('Coffee API', () => {
   });
 
   it('should make a valid POST request of coffees', (done) => {
-    chai.request('localhost:3000')
-      .post('/data')
+    request(serverUrl)
+      .post('/')
       .send({name: 'test coffee'})
       .end((err, res) => {
         expect(err).to.eql(null);
@@ -41,8 +44,8 @@ describe('Coffee API', () => {
     });
 
     it('should be able to update coffee info', (done) => {
-      chai.request('localhost:3000')
-        .put('/data' + this.testCoffee._id)
+      request(serverUrl)
+        .put('/' + this.testCoffee._id)
         .send(this.testCoffee)
         .end((err, res) => {
           expect(err).to.eql(null);
@@ -53,8 +56,8 @@ describe('Coffee API', () => {
     });
 
     it('should be able to delete coffee info', (done) => {
-      chai.request('localhost:3000')
-        .delete('/data' + this.testCoffee._id)
+      request(serverUrl)
+        .delete('/' + this.testCoffee._id)
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res).to.have.status(200);
@@ -64,7 +67,7 @@ describe('Coffee API', () => {
     });
   });
 
-  after(done => {
+  after((done) => {
     mongoose.connection.db.dropDatabase(() => {
       done();
     });
