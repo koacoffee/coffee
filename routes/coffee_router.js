@@ -47,6 +47,19 @@ coffeeRouter.put('/:id', parser(), function* (){
       handleDBError(e, this.response).bind(this);
     }
   }
+});
 
+coffeeRouter.delete('/:id', function* (){
+
+  if(this.params.id){
+    try{
+      yield Coffee.remove({ _id: this.params.id }).exec();
+      this.response.status = 200;
+      this.response.body = { msg: 'success' };
+    }
+    catch (e){
+      handleDBError(e, this.response).bind(this);
+    }
+  }
 });
 module.exports = exports = coffeeRouter;
