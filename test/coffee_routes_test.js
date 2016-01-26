@@ -56,8 +56,6 @@ describe('Coffee API', () => {
     });
 
     it('should be able to delete coffee info', (done) => {
-      console.log('testCoffee is : ');
-      console.dir(this.testCoffee);
       request(serverUrl)
         .delete('/' + this.testCoffee._id)
         .end((err, res) => {

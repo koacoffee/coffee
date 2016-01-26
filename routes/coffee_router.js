@@ -50,9 +50,8 @@ coffeeRouter.put('/:id', parser(), function* (){
 });
 
 coffeeRouter.delete('/:id', function* (){
-  debugger;
+
   if(this.params.id){
-    console.log('this.params.id : ' + this.params.id);
     try{
       yield Coffee.remove({ _id: this.params.id }).exec();
       this.response.status = 200;
