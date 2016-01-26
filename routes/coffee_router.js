@@ -1,37 +1,47 @@
 var router = require('koa-router');
-const Coffee = require(__dirname + '/../models/coffee_model');
+const bodyParser = require('koa-bodyparser');
+const coffeeModel = require(__dirname + '/../models/coffee_model');
 const handleDBError = require(__dirname + '/../lib/handle_db_error');
 
 var coffeeRouter = module.exports = exports = new router();
 
-coffeeRouter.get('/', function *(next) {
-  yield Coffee.find({}, (err, data) => {
-    console.log("err : " + err );
-    console.log("data : " + data);
-    if (err) return handleDBError(err, data);
-
-    this.body = data;
-    //console.dir(this);
-  });
-
-});
-
-coffeeRouter.post('/', function *(next) {
-  var espresso = new Coffee({name: this.request.form.params.name,
-    flavor: "rich, bold, extra bitter",
-    body: "creamy and extra full",
-    cupPreference: "shot"
-  });
-
-
-  //console.dir(this); //this will print to the console the
-  //various parts of the next object, where we can inspect it for the
-  //items that we have put in the PUT request. Then we can find where to
-  //grab our info and save to the database. Yay! -edit- or not...
-
-  yield espresso.save((err, data) => {
-    if(err) return handleDBError(err);
-
-    this.body = data;
-  });
-});
+module.exports = exports = coffeeRouter
+  .get('/', function* () {
+    try {
+      const data = yield coffeeModel.find({}).exec();
+      this.response.status = 200;
+      this.response.body = data;
+    } catch (e) {
+      handleDBError(e).bind(this);
+    }
+  })
+    .post('/', bodyParser(), function* () {
+      const newCoffee = yield coffeeModel.create(this.request.body);
+      try {
+        const data = yield newCoffee.save();
+        this.response.status = 200;
+        this.response.body = data;
+      } catch (e) {
+        handleDBError(e).bind(this);
+      }
+    })
+    .put('/:id', bodyParser(), function* () {
+      const putBody = this.request.body;
+      delete putBody._id;
+      try {
+        yield coffeeModel.update({ _id: this.params.id }, putBody).exec();
+        this.response.status = 200;
+        this.response.body = { msg: 'Success' };
+      } catch (e) {
+        handleDBError(e).bind(this);
+      }
+    })
+    .delete('/:id', function* () {
+      try {
+        yield coffeeModel.remove({ _id: this.params.id });
+        this.response.status = 200;
+        this.response.body = { msg: 'Success' };
+      } catch (e) {
+        handleDBError(e).bind(this);
+      }
+    });
