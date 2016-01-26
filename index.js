@@ -2,7 +2,6 @@ var koa = require('koa');
 const app = module.exports = exports = koa();
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/coffee_app_dev');
-// var coffeeModel = require('/models/coffee_model');
 const coffeeRouter = require(__dirname + '/routes/coffee_router');
 
 app.use(coffeeRouter.routes())

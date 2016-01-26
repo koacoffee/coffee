@@ -18,21 +18,35 @@ coffeeRouter.get('/', function *(next) {
 coffeeRouter.post('/', parser(), function *(next) {
 
   if(this.request.body){
-    const newCof = yield Coffee.create(this.request.body);
-    console.log('newCof : ' + newCof);
+    const myNewCoffee = yield Coffee.create(this.request.body);
 
     try{
-      const data = yield newCof.save();
+      const data = yield myNewCoffee.save();
       this.response.status = 200;
       this.response.body = data;
     }
     catch (e){
       handleDBError(e, this.response).bind(this);
     }
-
   }
+});
 
+coffeeRouter.put('/:id', parser(), function* (){
 
+  if(this.request.body){
+
+    var coffeeToUpdate = this.request.body;
+    delete coffeeToUpdate._id;
+
+    try{
+      yield Coffee.update({ _id: this.params.id }, coffeeToUpdate).exec();
+      this.response.status = 200;
+      this.response.body = { msg: 'success' };
+    }
+    catch (e){
+      handleDBError(e, this.response).bind(this);
+    }
+  }
 
 });
 module.exports = exports = coffeeRouter;
