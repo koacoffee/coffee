@@ -18,7 +18,7 @@
 <div class="divide-line"></div>
 
   <form id="coffeeform">
-  <FORM METHOD="POST" ACTION="formprocessor.php">
+  <FORM METHOD="POST" ACTION="http://localhost:3000" ID="coffeeform">
 
   <h1>Select Coffee Name</h1>
   <p><INPUT TYPE="radio" NAME="coffee" VALUE="Koa">Koa</p>
@@ -66,18 +66,22 @@
     <br>
     <br>
 
-    <p><input type="submit" value="Submit"></p>
+    <p><input type="submit" value="Send"></p>
 
   </form>
 </div>
 
 </header>
 
+<p>Plain text JSON area:</p>
+<section id="jsonArea"></section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/coffeeform.js"></script>
 
 <footer>
 Copyright Koa Coffee 2016.
 </footer>
-
 
  </body>
 </html>
