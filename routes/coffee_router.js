@@ -1,47 +1,38 @@
 var router = require('koa-router');
-const bodyParser = require('koa-bodyparser');
-const coffeeModel = require(__dirname + '/../models/coffee_model');
+var parser = require('koa-bodyparser');
+const Coffee = require(__dirname + '/../models/coffee_model');
 const handleDBError = require(__dirname + '/../lib/handle_db_error');
 
-var coffeeRouter = module.exports = exports = new router();
+var coffeeRouter = new router();
 
-module.exports = exports = coffeeRouter
-  .get('/', function* () {
-    try {
-      const data = yield coffeeModel.find({}).exec();
+coffeeRouter.get('/', function *(next) {
+
+  yield Coffee.find({}, (err, data) => {
+    if (err) return handleDBError(err, data);
+
+    this.body = data;
+  });
+});
+
+//Thanks to cf-api-project for assist!
+coffeeRouter.post('/', parser(), function *(next) {
+
+  if(this.request.body){
+    const newCof = yield Coffee.create(this.request.body);
+    console.log('newCof : ' + newCof);
+
+    try{
+      const data = yield newCof.save();
       this.response.status = 200;
       this.response.body = data;
-    } catch (e) {
-      handleDBError(e).bind(this);
     }
-  })
-    .post('/', bodyParser(), function* () {
-      const newCoffee = yield coffeeModel.create(this.request.body);
-      try {
-        const data = yield newCoffee.save();
-        this.response.status = 200;
-        this.response.body = data;
-      } catch (e) {
-        handleDBError(e).bind(this);
-      }
-    })
-    .put('/:id', bodyParser(), function* () {
-      const putBody = this.request.body;
-      delete putBody._id;
-      try {
-        yield coffeeModel.update({ _id: this.params.id }, putBody).exec();
-        this.response.status = 200;
-        this.response.body = { msg: 'Success' };
-      } catch (e) {
-        handleDBError(e).bind(this);
-      }
-    })
-    .delete('/:id', function* () {
-      try {
-        yield coffeeModel.remove({ _id: this.params.id });
-        this.response.status = 200;
-        this.response.body = { msg: 'Success' };
-      } catch (e) {
-        handleDBError(e).bind(this);
-      }
-    });
+    catch (e){
+      handleDBError(e, this.response).bind(this);
+    }
+
+  }
+
+
+
+});
+module.exports = exports = coffeeRouter;
