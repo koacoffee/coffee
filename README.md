@@ -2,18 +2,31 @@
 The second framework assignment for Code Fellows Seattle JavaScript 401.
 This is a single-resource REST app using the server-side HTTP framework Koa in combination with MongoDB.
 
-Compare/Contrast with other apps built with vanilla Node and Express:
-
-- Koa's middleware uses generators/iterators, and yield next().
-- Koa does not have a built-in router, while Express does.
-- Vanilla Node relies on conditional states.
-- Koa uses ```this.request``` and ```this.response``` while Express uses ```(req,res)```
-
 ## Contents
++   [Compare/Contrast](https://github.com/koacoffee/coffee#comparecontrast)
 +   [API](https://github.com/koacoffee/coffee#api)
 +   [Dependencies](https://github.com/koacoffee/coffee#dependencies)
 +   [Authors](https://github.com/koacoffee/coffee#authors)
 +   [License](https://github.com/koacoffee/coffee#license)
+
+## Compare/Contrast Koa with Express
+Koa is known as being a lightweight framework created by the Express team, for Node.js, running on V8.
+- For both, you ```require``` the framework and use ```app.listen``` on the server.
+- Koa uses ES6 generators and ```yield next()```
+- Koa uses ```this.request``` and ```this.response``` while Express uses ```(req,res)```
+- Koa does not have a built-in router, while Express does.
+- Koa requires a separate middleware to handle routes.
+- Koa does not use callbacks, while Express does.
+- Koa has built-in error handling, while Express does not.
+- Koa and Express both use the same method calls:
+```
+.get()
+.put()
+.post()
+.delete()
+```
+
+There are pros and cons to Koa and Express. The freedom of choice is yours!
 
 
 ## API
